@@ -10,4 +10,6 @@ return function (App $app) {
         $setting['logErrorDetails'],
         $setting['logErros']
     );
+
+    $app->addBodyParsingMiddleware();
 };
