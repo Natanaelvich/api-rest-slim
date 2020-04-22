@@ -1,8 +1,8 @@
 <?php
 
-use App\controllers\UserController;
 
 use Slim\App;
+use Src\controllers\UserController;
 
 return function (App $app) {
     $app->get('/users', UserController::class . ':index');

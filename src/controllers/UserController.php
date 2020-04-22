@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controllers;
+namespace Src\controllers;
 
-use App\DAO\UserDAO;
+use Src\DAO\UserDAO;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DAO;
+namespace Src\DAO;
 
-use App\DAO\Connection;
+use Src\DAO\Connection;
 
 class UserDAO extends Connection
 {
