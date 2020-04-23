@@ -20,7 +20,7 @@ composer update
 ## Usage
 
 ```sh
-p composer start
+composer start
 ```
 
 ## Author
