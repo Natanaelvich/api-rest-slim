@@ -5,7 +5,8 @@
         "slim/psr7": "^1.0",
         "selective/basepath": "^0.2.0",
         "slim/slim": "^4.5",
-        "php-di/php-di": "^6.1"
+        "php-di/php-di": "^6.1",
+        "tuupola/slim-jwt-auth": "^3.4"
     },
     "autoload": {
         "psr-4": {
