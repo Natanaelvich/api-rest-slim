@@ -13,6 +13,7 @@ class UserDAO extends Connection
         parent::__construct();
     }
 
+    ##find all users
     public function findAll()
     {
         $query = 'SELECT * FROM users';
@@ -20,6 +21,7 @@ class UserDAO extends Connection
         return $users;
     }
 
+    ##find user for id
     public function findById($id)
     {
         $query = "SELECT * FROM users where id = '$id'";
@@ -27,6 +29,7 @@ class UserDAO extends Connection
         return $user;
     }
 
+    ##find user for email
     public function findByEmail($email)
     {
         $query = "SELECT * FROM users where email = '$email'";
@@ -34,12 +37,16 @@ class UserDAO extends Connection
         return $user;
     }
 
+    ##create new user
     public function create(User $user)
     {
 
         $prepare = "INSERT INTO users (name_user, password_user, email) VALUES (:name_user, :password_user, :email);";
 
         $stmt = $this->pdo->prepare($prepare);
+
+        ##hash password
+        $user->setPassword_user(sha1($user->getPassword_user()));
 
         $stmt->execute([
             'name_user' => $user->getName_user(),

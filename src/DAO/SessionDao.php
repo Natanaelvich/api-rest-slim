@@ -13,17 +13,13 @@ class SessionDAO extends Connection
         parent::__construct();
     }
 
-    public function create($name, $password)
+    public function create($email, $password)
     {
-        $query = "SELECT * FROM users where name_user = '$name' and password_user = '$password'";
+        $password = sha1($password);
+
+        $query = "SELECT * FROM users where email = '$email' and password_user = '$password'";
 
         $user = $this->pdo->query($query)->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (count($user) == 0) {
-
-            return null;
-        }
-
 
         return $user;
     }
