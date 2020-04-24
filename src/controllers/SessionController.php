@@ -71,7 +71,7 @@ class SessionController
         $tokenDAO->create($tokenModel);
 
         #response token user
-        $res->getBody()->write(json_encode(["token" => $token, "user" => $user]));
+        $res->getBody()->write(json_encode(["token" => $token, "refresh_token" => $refreshToken]));
         return $res->withHeader('Content-Type', 'application/json');
     }
 }
