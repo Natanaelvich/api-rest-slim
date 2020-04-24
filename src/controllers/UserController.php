@@ -53,7 +53,7 @@ class UserController
         if (count($userExist) > 0) {
             $msg  = json_encode(["msg" => "user already exists"]);
             $res->getBody()->write($msg);
-            return $res->withHeader('Content-Type', 'application/json');
+            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
 
         ##create new user
@@ -71,5 +71,58 @@ class UserController
         ## reponse in json
         $res->getBody()->write($user);
         return $res->withHeader('Content-Type', 'application/json');
+    }
+
+    public  function update(Request $req, Response $res, $params)
+    {
+
+        ## get body params
+        $data = $req->getParsedBody();
+
+        $id =  $params['id'];
+
+        $userDao = new UserDAO;
+
+        $userExists = $userDao->findById($id);
+
+
+        ## verify if user  exists
+        if (count($userExists) == 0) {
+            $msg  = json_encode(["msg" => "user not found"]);
+            $res->getBody()->write($msg);
+            return $res->withStatus(404)->withHeader('Content-Type', 'application/json');
+        }
+
+        ##create user object
+        $user = new User;
+        $user->setName_user($data['name_user']);
+        $user->setPassword_user($data['password_user']);
+        $user->setEmail($data['email']);
+
+
+        $userExists = $userDao->findByEmail($user->getEmail());
+
+
+        ## verify if user already exists to email
+        if (count($userExists) > 0) {
+            $msg  = json_encode(["msg" => "this email is already registered"]);
+            $res->getBody()->write($msg);
+            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+        }
+        ##create new user
+        $user =   $userDao->update($user, $id);
+
+        $user = [
+            "name_user" => $user->getName_user(),
+            "password_user" => $user->getPassword_user(),
+            "email" => $user->getEmail()
+        ];
+
+        $user = json_encode($user);
+
+
+        ## reponse in json
+        $res->getBody()->write($user);
+        return $res->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 }

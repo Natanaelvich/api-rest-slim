@@ -56,4 +56,25 @@ class UserDAO extends Connection
 
         return $user;
     }
+
+    ##update new user
+    public function update(User $user, $id)
+    {
+
+        $prepare = "UPDATE users set name_user = :name_user, password_user = :password_user , email = :email  WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($prepare);
+
+        ##hash password
+        $user->setPassword_user(sha1($user->getPassword_user()));
+
+        $stmt->execute([
+            "id" => $id,
+            'name_user' => $user->getName_user(),
+            'password_user' => $user->getPassword_user(),
+            'email' => $user->getEmail()
+        ]);
+
+        return $user;
+    }
 }

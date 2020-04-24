@@ -56,6 +56,7 @@ class SessionController
         ##create refresh_token jwt for user
         $refreshTokenPayload = [
             'email' => $user['email'],
+            "radom" => uniqid()
         ];
         $refreshToken = JWT::encode($refreshTokenPayload, $secret);
 

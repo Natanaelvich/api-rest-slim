@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Middlewares;
+
 use Slim\App;
 
 return function (App $app) {

@@ -18,7 +18,7 @@ $app = AppFactory::create();
 $basePath = (new BasePathDetector($_SERVER))->getBasePath();
 $app->setBasePath($basePath);
 
-$middleware = require __DIR__ . '/../App/middleware.php';
+$middleware = require __DIR__ . '/../App/middlewares/middleware.php';
 $middleware($app);
 
 $routes = require __DIR__ . '/../App/routes.php';
