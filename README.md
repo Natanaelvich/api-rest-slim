@@ -11,6 +11,12 @@
 
 > api rest slim famework
 
+## Requirements
+
+For development, you will need Composer, PHP, Mysql and Apache installed on your environement.
+
+---
+
 ## Install
 
 ```sh
@@ -20,7 +26,7 @@ composer update
 ## Usage
 
 ```sh
-p composer start
+composer start
 ```
 
 ## Author
