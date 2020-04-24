@@ -36,24 +36,39 @@ class UserController
     public  function store(Request $req, Response $res, $params)
     {
 
+        ## get body params
         $data = $req->getParsedBody();
 
         $user = new User;
 
         $user->setName_user($data['name_user']);
         $user->setPassword_user($data['password_user']);
+        $user->setEmail($data['email']);
 
         $userDao = new UserDAO;
+
+        $userExist = $userDao->findByEmail($user->getEmail($user->getEmail()));
+
+        ## verify if user already exists
+        if (count($userExist) > 0) {
+            $msg  = json_encode(["msg" => "user already exists"]);
+            $res->getBody()->write($msg);
+            return $res->withHeader('Content-Type', 'application/json');
+        }
+
+        ##create new user
         $user =   $userDao->create($user);
 
         $user = [
             "name_user" => $user->getName_user(),
-            "password_user" => $user->getPassword_user()
+            "password_user" => $user->getPassword_user(),
+            "email" => $user->getEmail()
         ];
 
         $user = json_encode($user);
 
 
+        ## reponse in json
         $res->getBody()->write($user);
         return $res->withHeader('Content-Type', 'application/json');
     }
