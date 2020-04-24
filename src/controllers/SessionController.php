@@ -7,7 +7,9 @@ use Firebase\JWT\JWT;
 use Src\DAO\SessionDAO;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Src\DAO\TokenDAO;
 use Src\DAO\UserDAO;
+use Src\Models\Token;
 use Src\Models\User;
 use Tuupola\Middleware\JwtAuthentication;
 
@@ -41,7 +43,6 @@ class SessionController
         ##create token jwt for user
         $sessionDao = new SessionDAO;
         $token = $sessionDao->create($email, $password_user);
-
         $expiredAt = (new DateTime())->modify('+2 days')->format('Y-m-d H:i:s');
         $tokenPayload = [
             'sub' => $user['id'],
@@ -50,8 +51,24 @@ class SessionController
             'expired_at' => $expiredAt
         ];
         $secret = sha1('natanaelima');
-
         $token = JWT::encode($tokenPayload, $secret);
+
+        ##create refresh_token jwt for user
+        $refreshTokenPayload = [
+            'email' => $user['email'],
+        ];
+        $refreshToken = JWT::encode($refreshTokenPayload, $secret);
+
+        ##create object token
+        $tokenModel = new Token();
+        $tokenModel->setToken($token);
+        $tokenModel->setRefresh_token($refreshToken);
+        $tokenModel->setUser_id($user['id']);
+        $tokenModel->setExpired_at($expiredAt);
+
+        ##create token with id user
+        $tokenDAO = new TokenDAO();
+        $tokenDAO->create($tokenModel);
 
         #response token user
         $res->getBody()->write(json_encode(["token" => $token, "user" => $user]));
