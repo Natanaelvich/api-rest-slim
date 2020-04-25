@@ -34,7 +34,12 @@ class UserDAO extends Connection
     {
         $query = "SELECT * FROM users where email = '$email'";
         $user = $this->pdo->query($query)->fetchAll(\PDO::FETCH_ASSOC);
-        return $user;
+
+        if (count($user) == 0) {
+            return null;
+        }
+
+        return $user[0];
     }
 
     ##create new user

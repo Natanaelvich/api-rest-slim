@@ -28,4 +28,15 @@ class TokenDAO extends Connection
 
         return $token;
     }
+
+    public function findByRefreshToken(String $refreshToken)
+    {
+        $res =  $this->pdo->query("SELECT * FROM tokens WHERE refresh_token = '$refreshToken'");
+        $token = $res->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (count($token) == 0) {
+            return null;
+        }
+        return $token[0];
+    }
 }

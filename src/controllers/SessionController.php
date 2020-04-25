@@ -10,8 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Src\DAO\TokenDAO;
 use Src\DAO\UserDAO;
 use Src\Models\Token;
-use Src\Models\User;
-use Tuupola\Middleware\JwtAuthentication;
 
 class SessionController
 {
@@ -27,11 +25,11 @@ class SessionController
         $password_user = $data['password_user'];
 
         $userDao  = new UserDAO;
-        $user = $userDao->findByEmail($email)[0];
+        $user = $userDao->findByEmail($email);
 
         ##verify email and password user
-        if (count($user) == 0) {
-            $res->getBody()->write(json_encode(["mgs" => "fails in login"]));
+        if ($user == null) {
+            $res->getBody()->write(json_encode(["mgs" => "you is not registred"]));
             return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
 

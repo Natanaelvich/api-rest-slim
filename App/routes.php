@@ -1,8 +1,8 @@
 <?php
 
 use App\Middlewares\JwtAuth;
-use App\Middlewares\JWTsettings;
 use Slim\App;
+use Src\controllers\ForgotPasswordController;
 use Src\controllers\SessionController;
 use Src\controllers\UserController;
 
@@ -21,4 +21,5 @@ return function (App $app) {
     $app->post('/users', UserController::class . ':store');
 
     $app->post('/sessions', SessionController::class . ':store');
+    $app->post('/forgotPassword/{refreshtoken}', ForgotPasswordController::class . ':store');
 };

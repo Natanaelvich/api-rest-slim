@@ -30,7 +30,6 @@ class JwtAuth
         }
 
 
-        $response->getBody()->write(json_encode(["token" => $token, "expired_at" => $expireDate]));
         return $response;
     }
 }

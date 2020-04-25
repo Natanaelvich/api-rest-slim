@@ -104,7 +104,7 @@ class UserController
 
 
         ## verify if user already exists to email
-        if (count($userExists) > 0) {
+        if ($userExists == null) {
             $msg  = json_encode(["msg" => "this email is already registered"]);
             $res->getBody()->write($msg);
             return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
@@ -114,7 +114,6 @@ class UserController
 
         $user = [
             "name_user" => $user->getName_user(),
-            "password_user" => $user->getPassword_user(),
             "email" => $user->getEmail()
         ];
 
